@@ -1,0 +1,83 @@
+name: Auto Versioning on Merge
+
+on:
+  pull_request:
+    types: [closed]
+  push:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  auto-version:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true || github.event_name == 'push'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Get context
+        id: ctx
+        run: |
+          echo "event_name=${{ github.event_name }}" >> $GITHUB_OUTPUT
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "merged_branch=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
+            echo "target_branch=${{ github.event.pull_request.base.ref }}" >> $GITHUB_OUTPUT
+          else
+            echo "branch=$(echo $GITHUB_REF | sed -E 's|refs/heads/||')" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Ensure branch naming conventions for PRs
+        if: github.event_name == 'pull_request'
+        run: |
+          BR=${{ github.event.pull_request.head.ref }}
+          echo "Merged branch: $BR"
+          if [[ ! $BR =~ ^(feature|release)/.+ ]]; then
+            echo "Branch name '$BR' does not follow 'feature/<name>' or 'release/<name>' pattern." >&2
+            exit 1
+          fi
+
+      - name: Auto-version logic for merged PRs
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+        run: |
+          MERGED_BRANCH="${{ github.event.pull_request.head.ref }}"
+          TARGET_BRANCH="${{ github.event.pull_request.base.ref }}"
+          echo "Merged branch: $MERGED_BRANCH -> $TARGET_BRANCH"
+
+          chmod +x ./scripts/bump_version.sh
+
+          if [[ $MERGED_BRANCH =~ ^release/(.+)$ ]] && [[ "$TARGET_BRANCH" == "main" ]]; then
+            VER="${BASH_REMATCH[1]}"
+            echo "Release merge detected. Setting version to $VER and tagging."
+            ./scripts/bump_version.sh release "$VER"
+          elif [[ $MERGED_BRANCH =~ ^feature/.+ ]] && [[ "$TARGET_BRANCH" == "develop" ]]; then
+            echo "Feature merged to develop. Bumping patch version."
+            ./scripts/bump_version.sh feature
+          else
+            echo "Merge does not match release->main or feature->develop patterns. Skipping version change."
+          fi
+
+      - name: Auto-version logic for direct pushes
+        if: github.event_name == 'push'
+        run: |
+          BR="$(echo $GITHUB_REF | sed -E 's|refs/heads/||')"
+          echo "Push on branch: $BR"
+          chmod +x ./scripts/bump_version.sh
+          # If someone pushes a release branch directly to main (rare), handle tag if branch name is release/x.y.z
+          if [[ $BR =~ ^release/(.+)$ ]]; then
+            VER="${BASH_REMATCH[1]}"
+            echo "Direct release branch push detected; setting version to $VER and tagging."
+            ./scripts/bump_version.sh release "$VER"
+          fi
