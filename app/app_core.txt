@@ -1,0 +1,15 @@
+Application Core Module - v1.0.0
+
+The core module contains the fundamental framework and utilities required for the application
+to function. This is the foundation upon which all other features are built.
+
+Components:
+- Application entry point
+- Configuration loader
+- Dependency injection container
+- Request handler
+- Response formatter
+
+Status: Stable
+Release: v1.0.0
+Last Updated: 2026-02-10

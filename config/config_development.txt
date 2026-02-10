@@ -1,0 +1,65 @@
+Development Configuration File
+
+Configuration settings for local development environment.
+
+Server Configuration:
+  Host: localhost / 127.0.0.1
+  Port: 3000 (HTTP)
+  Protocol: HTTP
+  Worker threads: Single thread (easier debugging)
+  Auto-reload: Enabled (nodemon/watchdog)
+
+Database Configuration:
+  Host: localhost
+  Port: 5432
+  Database: myapp-dev
+  Pool size: 5
+  SSL: Disabled
+  Connection timeout: 5000ms
+  Commands on connect: none
+
+Cache Configuration:
+  Type: Redis (local)
+  Host: localhost:6379
+  Password: none
+  TTL: Disabled (no expiration)
+  Memory policy: noeviction
+
+API Configuration:
+  Rate limiting: Disabled (for easier testing)
+  Request timeout: No timeout
+  Max payload size: 10MB (for testing large payloads)
+
+Security:
+  CORS: Allow all origins
+  HSTS: Disabled
+  CSP: Disabled
+  JWT secret: dev-secret-key-not-for-production
+  SSL/TLS: Not required
+
+Logging:
+  Level: DEBUG
+  Output: Console (colorized)
+  Format: Human readable
+  Stack traces: Full
+
+Debugging:
+  Debug mode: Enabled
+  Source maps: Enabled
+  Request logging: Enabled
+  Query logging: Enabled
+  Memory profiling: Enabled
+
+Hot reload:
+  Enabled: true
+  Watch directories: src, config
+  Polling interval: 1000ms
+
+Testing:
+  Test database: myapp-test
+  Test cache: Redis (separate instance)
+  Mock external APIs: Yes
+  Seed data: Load sample data
+
+Status: Development Only
+Last Updated: 2026-02-10

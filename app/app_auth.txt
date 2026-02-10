@@ -1,0 +1,52 @@
+Authentication Module - Added in v1.1.0 (Release)
+
+Comprehensive user authentication system.
+
+Authentication Methods:
+1. Local Authentication
+   - Email and password
+   - Username and password
+   - Registration
+   - Password reset
+   - Email verification
+
+2. Social Authentication
+   - Google OAuth
+   - GitHub OAuth
+   - Facebook OAuth
+   - LinkedIn OAuth
+
+3. Token Management
+   - JWT (JSON Web Tokens)
+   - Access tokens (15 minutes)
+   - Refresh tokens (7 days)
+   - Token rotation
+   - Token revocation
+
+4. Session Management
+   - Multi-device support
+   - Session list
+   - Session revocation
+   - Timeout handling
+
+5. Security Features
+   - Rate limiting on login attempts
+   - Account lockout after failed attempts
+   - CAPTCHA for repeated failures
+   - Device fingerprinting
+   - Suspicious activity detection
+
+Endpoints:
+- POST /api/auth/register
+- POST /api/auth/login
+- POST /api/auth/logout
+- GET /api/auth/verify
+- POST /api/auth/refresh
+- POST /api/auth/reset-password
+- GET /api/auth/social/[provider]
+- POST /api/auth/2fa/setup
+- POST /api/auth/2fa/verify
+
+Status: New Feature (v1.1.0)
+Release: v1.1.0
+Last Updated: 2026-02-10

@@ -1,0 +1,76 @@
+Staging Configuration File
+
+Configuration settings for staging/testing environment.
+Mirrors production as closely as possible for final validation
+before production deployment.
+
+Server Configuration:
+  Host: 0.0.0.0
+  Port: 443 (HTTPS)
+  Protocol: HTTPS/TLS 1.3
+  Worker threads: Auto (matches production)
+  Environment: staging
+
+Database Configuration:
+  Host: staging-db.internal.com
+  Port: 5432
+  Database: myapp-staging
+  Pool size: 15
+  SSL: Required (self-signed cert for testing)
+  Connection timeout: 30000ms
+
+Cache Configuration:
+  Type: Redis (single instance)
+  Host: staging-cache.internal.com:6379
+  Password: [ENCRYPTED]
+  TTL: 3600 seconds
+  Max memory policy: allkeys-lru
+
+API Configuration:
+  Rate limiting: 5000 requests/minute
+  Request timeout: 30000ms
+  Max payload size: 1MB
+
+Security:
+  CORS: Restricted to staging domains
+  HSTS: Enabled (max-age: 31536000)
+  CSP: Content security policy enabled
+  JWT secret: [ENCRYPTED - loaded from secrets manager]
+  SSL/TLS: Required
+
+Logging:
+  Level: INFO
+  Output: File + CloudWatch
+  Retention: 30 days
+  Format: JSON
+
+Monitoring:
+  APM: DataDog enabled (staging environment)
+  Error tracking: Sentry enabled (staging project)
+  Health check: /health (every 60s)
+  Alerts: Enabled (non-critical only)
+
+Testing:
+  Load testing: Allowed
+  Penetration testing: Allowed
+  Performance testing: Enabled
+  Security scanning: Daily
+
+Deployment:
+  Region: us-east-1 (matches production)
+  Auto-scaling: Enabled (min 2, max 5 instances)
+  Health checks: Required
+  Rolling updates: Enabled
+
+Backups:
+  Database: Every 6 hours
+  Retention: 7 days
+  Location: AWS S3 (separate from production)
+
+Data:
+  Anonymized production data OR sample data
+  No real customer data
+  Matches production volume and distribution
+
+Status: Staging/Pre-Production
+Last Updated: 2026-02-10
