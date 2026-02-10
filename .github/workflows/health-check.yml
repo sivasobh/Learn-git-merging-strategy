@@ -1,0 +1,40 @@
+name: Repository Health Check 🏥
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    name: Health Check
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📋 Check README Exists
+        run: test -f README.md && echo "✓ README.md found"
+
+      - name: 📂 Check Documentation
+        run: test -d docs && echo "✓ docs folder found"
+
+      - name: 🧃 Check App Structure
+        run: test -d app && echo "✓ app folder found"
+
+      - name: ⚙️ Check Config Structure
+        run: test -d config && echo "✓ config folder found"
+
+      - name: 🔐 Check Git Config
+        run: |
+          echo "Current branch: $(git rev-parse --abbrev-ref HEAD)"
+          echo "Commit count: $(git rev-list --all --count)"
+
+      - name: ✅ All Checks Passed
+        run: echo "Repository is healthy!"

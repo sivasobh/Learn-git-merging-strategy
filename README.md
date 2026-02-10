@@ -31,8 +31,13 @@ You just completed Phase 1! Here's what happened:
 ```
 Learn-git-merging-strategy/
 ├── README.md                    ← You are here
+├── .github/
+│   └── workflows/
+│       ├── phase-1-validation.yml   ← Automated Phase 1 checks 🤖
+│       └── health-check.yml         ← Repository health checks 🏥
 ├── docs/
-│   └── SIMPLIFIED.md           ← Easy juice-making guide
+│   ├── SIMPLIFIED.md           ← Easy juice-making guide
+│   └── GITHUB-ACTIONS.md       ← How the automation works
 ├── app/
 │   └── app_core.txt            ← Main juice factory file
 └── config/
@@ -65,7 +70,33 @@ Learn-git-merging-strategy/
 
 ---
 
-## 🎮 Next: Phase 2 - Feature Development
+## 🤖 Automated Quality Control (GitHub Actions)
+
+We've added **automatic robots** that check your juice factory! 🔄
+
+### What The Robots Do:
+
+**🧃 Phase 1 Validator**
+- Checks main & develop branches exist
+- Verifies v1.0.0 tag is present
+- Confirms all Phase 1 files exist
+- Runs on every push!
+
+**🏥 Health Check**
+- Verifies repository structure
+- Checks all folders exist
+- Confirms everything is healthy
+
+### View Results:
+
+When you push to GitHub:
+1. Go to "Actions" tab in GitHub
+2. See the robots running ✅
+3. All checks should be GREEN!
+
+**Learn More:** [docs/GITHUB-ACTIONS.md](docs/GITHUB-ACTIONS.md)
+
+---
 
 Ready to create your first feature? 
 
