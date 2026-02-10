@@ -110,20 +110,13 @@ In Phase 2, you'll:
 ---
 
 ## 📖 Need Help?
+## 📖 Need Help?
 
 Read the simple guide: [docs/SIMPLIFIED.md](docs/SIMPLIFIED.md)
-│       ├── app_payment.txt
-│       ├── app_auth.txt
-│       └── app_email.txt
-├── utils/
-│   ├── utility_helper.txt
-│   ├── utility_logger.txt
-│   └── utility_database.txt
-└── config/
-    ├── config_production.txt
-    ├── config_development.txt
-    └── config_staging.txt
-```
+
+For automation and CI/CD details, see: [docs/GITHUB-ACTIONS.md](docs/GITHUB-ACTIONS.md)
+
+If you need the older, more detailed command examples or scenarios, they were consolidated into the simplified guide and automation docs above.
 
 ## 🚶 How to Use This Playground
 
